@@ -1,0 +1,25 @@
+name: PC Virtual
+
+on:
+  workflow_dispatch:
+
+jobs:
+  pc-virtual:
+    runs-on: windows-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Ver informações do PC
+        shell: powershell
+        run: |
+          Write-Host "=== PC VIRTUAL ==="
+          Get-CimInstance Win32_Processor | Select-Object Name, NumberOfCores
+          Get-CimInstance Win32_ComputerSystem | Select-Object TotalPhysicalMemory
+          Get-PSDrive C | Select-Object Used, Free
+
+      - name: Manter o ambiente ativo
+        shell: powershell
+        run: |
+          Write-Host "PC virtual iniciado!"
+          Write-Host "Runner: $env:RUNNER_NAME"
+          Start-Sleep -Seconds 60
